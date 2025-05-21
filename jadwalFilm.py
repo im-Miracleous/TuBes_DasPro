@@ -21,11 +21,11 @@ def inputFilm():
     while (loop == True):
         with open('films.csv', mode='a', newline='') as file:
             writer = csv.writer(file)
-            judul = input("Judul Film\b: ")
-            jam_tayang = input("Jam Tayang\b: ")
-            durasi = input("Durasi\b: ")
-            genre = input("Genre\b: ")
-            ruangan = input("Ruangan\b: ")
+            judul = input("Judul Film \b: ")
+            jam_tayang = input("Jam Tayang \b: ")
+            durasi = input("Durasi \b: ")
+            genre = input("Genre \b: ")
+            ruangan = input("Ruangan \b: ")
             writer.writerow([judul, jam_tayang, durasi, genre, ruangan])
             print("Film berhasil ditambahkan!")
         tanya = input("Apakah Anda ingin menambahkan film lain? (y/n): ")
