@@ -1,9 +1,11 @@
 def main():
     # Setup tampilan
-    baris = 14
-    kolom = 14
+    baris = 10  # max 26 huruf 
+    kolom = 15  # max 2 digit 
     arr_baris = baris * [None]
     arr_kolom = kolom * [None]
+    arr_kolom_unavailable = [0, 7]
+    arr_baris_unavailable = [1,2,3,4,5,6,7,8,9]
     
     # Simpan angka kolom versi tampilan 
     for i in range(0, kolom, 1):
@@ -67,15 +69,55 @@ def main():
         elif (i+1 == 26):
             arr_baris[i] = 'Z'
     
-    for j in range(0, baris*2, 1):
-        if (j%2 == 1):
+    # j = indeks baris, i = indeks kolom
+    for j in range(0, baris*3+1, 1):
+        if (j == 0):
+            print(end='┌')
+            for i in range(0, kolom, 1):
+                if (i==kolom-1):
+                    print('-----', end='┐')
+                else:
+                    print('-----', end='┬')
+        elif (j%3 == 1):
             print(end='| ')
             for i in range(0, kolom, 1):
-                print(F'{arr_baris[j//2]}{arr_kolom[i]}', end=' | ')
-        else:
-            print(end='|')
+                unavailable = False
+                for k in range(0, len(arr_kolom_unavailable), 1):
+                    if (i == arr_kolom_unavailable[k]):
+                        for l in range(0, len(arr_baris_unavailable), 1):
+                            if(j//3 == arr_baris_unavailable[l]):
+                                unavailable = True
+                if(unavailable):
+                    print('   ', end=' | ')
+                else:
+                    print(f'{arr_baris[j//3]}{arr_kolom[i]}', end=' | ')
+        elif (j%3 == 2):
+            print(end='| ')
             for i in range(0, kolom, 1):
-                print('-----', end='|')
+                unavailable = False
+                for k in range(0, len(arr_kolom_unavailable), 1):
+                    if (i == arr_kolom_unavailable[k]):
+                        for l in range(0, len(arr_baris_unavailable), 1):
+                            if(j//3 == arr_baris_unavailable[l]):
+                                unavailable = True
+                if(unavailable):
+                    print('   ', end=' | ')
+                else:
+                    print(' ✓ ', end=' | ')
+        elif (j == baris*3):
+            print(end='└')
+            for i in range(0, kolom, 1):
+                if (i==kolom-1):
+                    print('-----', end='┘')
+                else:
+                    print('-----', end='┴')
+        else:
+            print(end='├')
+            for i in range(0, kolom, 1):
+                if (i==kolom-1):
+                    print('-----', end='┤')
+                else:
+                    print('-----', end='┼')
         print()
         
     
