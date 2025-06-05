@@ -1,0 +1,15 @@
+tipe bioskop
+3
+
+daftar tempat duduk
+"A02, C01, D04, B05, E03, end"
+
+jumlah tiket
+5
+
+state tempat duduk
+ V , X , V , V , V , V 
+ V , V , V , V , X , V 
+ X , V , V , V , V , V 
+ V , V , V , X , V , V 
+ V , V , X , V , V , V 
