@@ -1,4 +1,6 @@
-#   Resi - Booking Tiket Bioskop    #
+import csv
+
+#   Resi -- Booking Tiket Bioskop --   #
 
 def main():
     
