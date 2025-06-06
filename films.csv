@@ -1,3 +1,2 @@
-Judul Film,Jam,Menit,Harga Tiket,Tipe Bioskop
-Jumbo,13,45,50000,Reguler
-Bapa Aing,12,0,75000,IMAX
+Judul Film,Jam,Menit,Tipe Bioskop,Harga Tiket
+Jumbo,15,30,Reguler/Deluxe,55000
