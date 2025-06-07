@@ -1,19 +1,38 @@
 # File : main.py 
 # Program menampilkan interface utama untuk aplikasi booking tiket bioskop
 
+import jadwalFilm
+import tempatduduk
+import resi
+import time
+
 def menu():
-    print("Selamat datang di bioskop Cinegaje!")
+    print("\nSelamat datang di bioskop Cinegaje!")
     print('"Walau nonton tak jelas, abis nonton pasti puas!"')
-    print("--------------------------------------")
-    print("Silahkan ketikkan angka sesuai menu yang ingin dipilih:")
-    print("1. Lihat Jadwal Film")
-    print("2. Booking Tiket")
-    print("3. Histori Pesanan")
-    print("4. Keluar")
-    print("--------------------------------------")
-    choose = int(input("Pilihan: "))
-    print()
-    return choose
+    
+    choose = 0
+    while (choose != 3):
+        print("\n----------------------------------------------------------------")
+        print("Silahkan ketikkan angka sesuai menu yang ingin dipilih:")
+        print("1. Lihat Jadwal Film")
+        print("2. Booking Tiket")
+        print("3. Keluar")
+        print("----------------------------------------------------------------\n")
+        choose = int(input("Pilihan: "))
+        if (choose < 1 or choose > 3):
+            print("Maaf, pilihan tidak valid. Silakan coba lagi.\n")
+            time.sleep(2)
+        if (choose == 1):
+            jadwalFilm.jadwal_Film()
+        elif (choose == 2):
+            tempatduduk.main()
+            print("Memproses pesanan tiket Anda...\n")
+            time.sleep(7)
+            resi.main()
+        elif (choose == 3):
+            print("Keluar dari program...")
+            time.sleep(2)
+    return
 
 def main():
     menu()
