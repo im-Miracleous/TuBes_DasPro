@@ -4,28 +4,34 @@
 import jadwalFilm
 import tempatduduk
 import resi
+import time
 
 def menu():
-    print("Selamat datang di bioskop Cinegaje!")
+    print("\nSelamat datang di bioskop Cinegaje!")
     print('"Walau nonton tak jelas, abis nonton pasti puas!"')
-    print("--------------------------------------")
-    print("Silahkan ketikkan angka sesuai menu yang ingin dipilih:")
-    print("1. Lihat Jadwal Film")
-    print("2. Booking Tiket")
-    print("3. Print Resi")
-    print("4. Keluar")
-    print("--------------------------------------")
-    choose = int(input("Pilihan: "))
-    while (choose != 4):
+    
+    choose = 0
+    while (choose != 3):
+        print("\n----------------------------------------------------------------")
+        print("Silahkan ketikkan angka sesuai menu yang ingin dipilih:")
+        print("1. Lihat Jadwal Film")
+        print("2. Booking Tiket")
+        print("3. Keluar")
+        print("----------------------------------------------------------------\n")
+        choose = int(input("Pilihan: "))
+        if (choose < 1 or choose > 3):
+            print("Maaf, pilihan tidak valid. Silakan coba lagi.\n")
+            time.sleep(2)
         if (choose == 1):
-            jadwalFilm.lihat_jadwal_film()
+            jadwalFilm.jadwal_Film()
         elif (choose == 2):
             tempatduduk.main()
-        elif (choose == 3):
+            print("Memproses pesanan tiket Anda...\n")
+            time.sleep(7)
             resi.main()
-        elif (choose == 4):
+        elif (choose == 3):
             print("Keluar dari program...")
-        choose = int(input("Pilihan: "))
+            time.sleep(2)
     return
 
 def main():

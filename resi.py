@@ -1,4 +1,5 @@
 import csv
+import datetime
 
 def baca_data_seats(filename):
     with open(filename, "r", encoding="utf-8") as file:
@@ -32,19 +33,16 @@ def baca_data_seats(filename):
 
 # Contoh penggunaan
 data = baca_data_seats("seats.csv")
-print(f"Tipe Bioskop:", data['tipe bioskop'])
-if data['tipe bioskop'] == 1:
-    tipe = "Reguler"
+tipe = data['tipe bioskop']
+if tipe == "Reguler":
     harga = 55000
-elif data['tipe bioskop'] == 2:
-    tipe = "4DX"
+elif tipe == "4DX":
     harga = 110000
 else:
-    tipe = "Premium"
     harga = 350000
     
-print(f"Jumlah Tiket:", data['jumlah tiket'])
-print(f"Daftar Tempat Duduk:", data['daftar tempat duduk'])
+# print(f"Jumlah Tiket:", data['jumlah tiket'])
+# print(f"Daftar Tempat Duduk:", data['daftar tempat duduk'])
 
 
 #   Resi -- Booking Tiket Bioskop --   #
@@ -54,13 +52,13 @@ def main():
     print(f"================================================")
     print(f"                Cinegaje Bioskop                ")
     print(f"------------------------------------------------")
-    print(f" Detail Transaction     DD-MM-YYYY WIB/WIT/WITA ")
+    print(f" Detail Transaction     {datetime.datetime.now().strftime('%d-%m-%Y %H:%M')} ")
     print(f"                                                ")
     print(f" ------------------                             ")
     print(f" |                |  Fast X                     ")
     print(f" |                |                             ")
-    print(f" |                |  Date: Thursday,DD-MM-YYYY  ")
-    print(f" |                |  Time: 10:00 WIB/WIT/WITA   ")
+    print(f" |                |  Date: {datetime.datetime.now().strftime('%A, %d-%m-%Y')}  ")
+    print(f" |                |  Time: {datetime.datetime.now().strftime('%H:%M')}         ")
     print(f" |                |                             ")
     print(f" |                |                             ")
     print(f" |                |  Booking Code: 9432940      ")
@@ -86,4 +84,4 @@ def main():
     print(f"================================================")
     
 if __name__ == '__main__':    
-    main()   
+    main()

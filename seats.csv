@@ -1,14 +1,14 @@
 tipe bioskop
-1
+Reguler/Deluxe
 
 daftar tempat duduk
-"A01, A02, A03, A04, end"
+end
 
 jumlah tiket
-4
+0
 
 state tempat duduk
- X , X , X , X , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
+ V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
  V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
  V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
  V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 

@@ -18,27 +18,28 @@ def jadwal_Film():
         with open('films.csv', 'r', encoding='utf-8') as f:
             reader = csv.reader(f)
             rows = list(reader)
-            if len(rows) > 1:
-                print("Jadwal Bioskop (dari CSV):")
+            if len(rows) > 2:
+                print("\nJadwal Bioskop (dari database):")
                 print("-----------------------------------------------------------------------------------")
-                header = rows[0]
+                header = rows[1]
                 print(f"{header[0]:20}{header[1]:>10}{header[2]:>10}{header[3]:>18}{header[4]:>20}")
                 print("-----------------------------------------------------------------------------------")
-                for film in rows[1:]:
-                    print(f"{film[0]:20}{film[1]:>10}{film[2]:>10}{film[3]:>18}{film[4]:>20}")
+                for film in rows[2:]:
+                    if len(film) == 5:
+                        print(f"{film[0]:20}{film[1]:>10}{film[2]:>10}{film[3]:>18}{film[4]:>20}")
                 print("-----------------------------------------------------------------------------------")
-                print("Silahkan booking tiket sesuai jadwal film di atas!")
+                print()
             else:
                 print("Belum ada data film yang tersimpan.")
 
 def tambah_Film(N):
     films = deklarasiMatriks(N, 5)
     # Input data film
-    print("Masukkan data jadwal film:")
+    print("\nMasukkan data jadwal film:")
     for i in range(N):
         judul = input(f"Judul Film ke-{i+1}: ")
-        jam = int(input(f"Jam Tayang Film ke-{i+1}: "))
-        menit = int(input(f"Menit Tayang Film ke-{i+1}: "))
+        jam = str(input(f"Jam Tayang Film ke-{i+1}: "))
+        menit = str(input(f"Menit Tayang Film ke-{i+1}: "))
         tipe = tipe_bioskop()
         harga = harga_tiket(tipe)
         films[i][0] = judul
@@ -49,8 +50,10 @@ def tambah_Film(N):
     # Simpan ke CSV
     with open('films.csv', 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
+        writer.writerow(["List Jadwal Film"])
         writer.writerow(["Judul Film", "Jam", "Menit", "Tipe Bioskop", "Harga Tiket"])
         writer.writerows(films)
+        writer.writerow([])  # Tambahkan baris kosong setelah data
     return films
 
 def hapus_Film(N):
@@ -59,7 +62,7 @@ def hapus_Film(N):
             reader = csv.reader(f)
             rows = list(reader)
             if len(rows) > 1:
-                print("Jadwal Bioskop (dari CSV):")
+                print("\nJadwal Bioskop (dari database):")
                 print("-----------------------------------------------------------------------------------")
                 header = rows[0]
                 print(f"{header[0]:20}{header[1]:>10}{header[2]:>10}{header[3]:>18}{header[4]:>20}")
@@ -95,7 +98,7 @@ def harga_tiket(tipe):
 def tipe_bioskop():
     index_tipe = 0
     while index_tipe < 1 or index_tipe > 3:
-        print('Tipe Bioskop:')
+        print('\nTipe Bioskop:')
         print('1. Reguler/Deluxe\tRp55.000,00')
         print('2. 4DX\t\t\tRp110.000,00')
         print('3. Premium Class\tRp220.000,00')
@@ -114,7 +117,7 @@ def tipe_bioskop():
 
 ## PROGRAM UTAMA
 def main():
-    print("KONFIGURASI JADWAL FILM")
+    print("\nKONFIGURASI JADWAL FILM")
     print("Note: Selain staff, hanya admin yang dapat mengakses menu ini.")
     print("--------------------------------------------------")
     print("Pilihan Menu:")

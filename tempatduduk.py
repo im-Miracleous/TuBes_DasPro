@@ -1,4 +1,5 @@
 import csv
+import jadwalFilm
 
 def deklarasiMatriks(dimensi1,dimensi2) :
     arr = [None]*dimensi1 # array berisi 3 elemen
@@ -66,25 +67,16 @@ def isiAlfabetMatriks(baris, kolom):
 
 def main():
     # Menu tipe bioskop
-    tipe = 0
-    while ((tipe < 1) or (tipe > 3)):
-        print('Tipe Bioskop:')
-        print('1. Reguler/Deluxe\tRp55.000,00')
-        print('2. 4DX\t\t\tRp110.000,00')
-        print('3. Premium Class\tRp220.000,00')
-        tipe = int(input('\nPilih tipe bioskop (ketik angka 1-3): '))
-        print('\n===============================================\n')
-    
-        print('Maaf tolong masukan angka di antara 1 & 3!')
+    tipe = jadwalFilm.tipe_bioskop()
 
     # Setup tampilan sesuai tipe bioskop
-    if (tipe == 1):
+    if (tipe == "Reguler/Deluxe"):
         baris = 10  # max 26 huruf , 2D 10, 4DX 8
         kolom = 20  # max 2 digit , 2D 20, 4DX 16
-    elif (tipe == 2):
+    elif (tipe == "4DX"):
         baris = 8
         kolom = 16
-    else:
+    elif (tipe == "Premium"):
         baris = 5
         kolom = 6
     matrix_kursi_tampilan = deklarasiMatriks(baris, kolom)
@@ -169,7 +161,7 @@ def main():
         writer.writerow([daftar_order])
         writer.writerow([])
         writer.writerow(['jumlah tiket'])
-        writer.writerow([tiket-1])
+        writer.writerow([tiket-1])  # -1 karena 'end' tidak dihitung sebagai tiket
         writer.writerow([])
         writer.writerow(['state tempat duduk'])
         writer.writerows(matrix_kondisi_kursi)
@@ -177,4 +169,4 @@ def main():
     return 0
 
 if __name__ == '__main__':    
-    main()   
+    main()
