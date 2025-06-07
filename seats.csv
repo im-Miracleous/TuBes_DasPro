@@ -2,13 +2,13 @@ tipe bioskop
 Premium Class
 
 daftar tempat duduk
-end
+"A01, A02, end"
 
 jumlah tiket
-0
+2
 
 state tempat duduk
- V , V , V , V , V , V 
+ X , X , V , V , V , V 
  V , V , V , V , V , V 
  V , V , V , V , V , V 
  V , V , V , V , V , V 
