@@ -67,7 +67,6 @@ def isiAlfabetMatriks(baris, kolom):
 
 def main():
     # Menu tipe bioskop
-
     tipe = jadwalFilm.tipe_bioskop()
 
     # Setup tampilan sesuai tipe bioskop
@@ -77,7 +76,7 @@ def main():
     elif (tipe == "4DX"):
         baris = 8
         kolom = 16
-    elif (tipe == "Premium"):
+    elif (tipe == "Premium Class"):
         baris = 5
         kolom = 6
     matrix_kursi_tampilan = deklarasiMatriks(baris, kolom)
@@ -103,55 +102,59 @@ def main():
     tiket = 0
     order = ''
     while (order != 'end'):
+        err = False
         for i in range(0, baris, 1):
             for j in range(0, kolom, 1):
                 if (order == matrix_kursi_tampilan[i][j]):
-                    matrix_kondisi_kursi[i][j] = ' X '
+                    if (matrix_kondisi_kursi[i][j] != ' X '):
+                        matrix_kondisi_kursi[i][j] = ' X '
+                        daftar_order += order + ', '
+                        tiket += 1    
+                    else:
+                        print('Maaf tempat duduk tersebut sudah dipesan!')
+                        err = True
+
         # tampilan tempat duduk, i = indeks baris, j = indeks kolom
-        for i in range(0, baris*3+1, 1):
-            if (i == 0):
-                print(end='┌')
-                for j in range(0, kolom, 1):
-                    if (j==kolom-1):
-                        print('-----', end='┐')
-                    else:
-                        print('-----', end='┬')
-            elif (i%3 == 1):
-                print(end='| ')
-                for j in range(0, kolom, 1):
-                    print(matrix_kursi_tampilan[i//3][j], end=' | ')
-            elif (i%3 == 2):
-                print(end='| ')
-                for j in range(0, kolom, 1):
-                    print(matrix_kondisi_kursi[i//3][j], end=' | ')
-            elif (i == baris*3):
-                print(end='└')
-                for j in range(0, kolom, 1):
-                    if (j==kolom-1):
-                        print('-----', end='┘')
-                    else:
-                        print('-----', end='┴')
-            else:
-                print(end='├')
-                for j in range(0, kolom, 1):
-                    if (j==kolom-1):
-                        print('-----', end='┤')
-                    else:
-                        print('-----', end='┼')
-            print()
+        if (not err):
+            for i in range(0, baris*3+1, 1):
+                if (i == 0):
+                    print(end='┌')
+                    for j in range(0, kolom, 1):
+                        if (j==kolom-1):
+                            print('-----', end='┐')
+                        else:
+                            print('-----', end='┬')
+                elif (i%3 == 1):
+                    print(end='| ')
+                    for j in range(0, kolom, 1):
+                        print(matrix_kursi_tampilan[i//3][j], end=' | ')
+                elif (i%3 == 2):
+                    print(end='| ')
+                    for j in range(0, kolom, 1):
+                        print(matrix_kondisi_kursi[i//3][j], end=' | ')
+                elif (i == baris*3):
+                    print(end='└')
+                    for j in range(0, kolom, 1):
+                        if (j==kolom-1):
+                            print('-----', end='┘')
+                        else:
+                            print('-----', end='┴')
+                else:
+                    print(end='├')
+                    for j in range(0, kolom, 1):
+                        if (j==kolom-1):
+                            print('-----', end='┤')
+                        else:
+                            print('-----', end='┼')
+                print()
             
-        tiket = tiket + 1    
-    
         order = str(input('\nPesan tempat duduk: '))
+        if (order == 'end'):
+            daftar_order += order
         print()
         for j in range(0, (kolom * 6) + 10, 1):
             print(end='=')
         print('\n')
-
-        if (order != 'end'):
-            daftar_order += order + ', '
-        else:
-            daftar_order += order
 
     with open("seats.csv", "w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
@@ -162,7 +165,7 @@ def main():
         writer.writerow([daftar_order])
         writer.writerow([])
         writer.writerow(['jumlah tiket'])
-        writer.writerow([tiket-1])  # -1 karena 'end' tidak dihitung sebagai tiket
+        writer.writerow([tiket])
         writer.writerow([])
         writer.writerow(['state tempat duduk'])
         writer.writerows(matrix_kondisi_kursi)
