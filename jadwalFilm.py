@@ -40,18 +40,18 @@ def tambah_Film(N):
         judul = input(f"Judul Film ke-{i+1}: ")
         jam = str(input(f"Jam Tayang Film ke-{i+1}: "))
         menit = str(input(f"Menit Tayang Film ke-{i+1}: "))
-        tipe = tipe_bioskop()
-        harga = harga_tiket(tipe)
+        genre = str(input(f"Genre Film: "))
+        rating = str(input(f"Rating Usia: "))
         films[i][0] = judul
         films[i][1] = jam
         films[i][2] = menit
-        films[i][3] = tipe
-        films[i][4] = harga
+        films[i][3] = genre
+        films[i][4] = rating
     # Simpan ke CSV
     with open('films.csv', 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow(["List Jadwal Film"])
-        writer.writerow(["Judul Film", "Jam", "Menit", "Tipe Bioskop", "Harga Tiket"])
+        writer.writerow(["Judul Film", "Jam", "Menit", "Genre", "Rating"])
         writer.writerows(films)
         writer.writerow([])  # Tambahkan baris kosong setelah data
     return films
@@ -65,7 +65,7 @@ def hapus_Film(N):
                 print("\nJadwal Bioskop (dari database):")
                 print("-----------------------------------------------------------------------------------")
                 header = rows[0]
-                print(f"{header[0]:20}{header[1]:>10}{header[2]:>10}{header[3]:>18}{header[4]:>20}")
+                print(f"{header[0]:20}{header[1]:>10}{header[2]:>10}")
                 print("-----------------------------------------------------------------------------------")
                 for film in rows[1:]:
                     print(f"{film[0]:20}{film[1]:>10}{film[2]:>10}{film[3]:>18}{film[4]:>20}")

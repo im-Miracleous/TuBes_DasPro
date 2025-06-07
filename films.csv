@@ -1,5 +1,5 @@
 List Jadwal Film
-Judul Film,Jam,Menit,Tipe Bioskop,Harga Tiket
-KDM Bapa Aing,10,00,Reguler/Deluxe,55000
-Aquaman,18,30,4DX,110000
+Judul Film,Jam,Menit,Genre,Rating
+KDM Bapa Aing,10,00,Action,13+
+Aquaman,18,30,Adventure,13+
 
