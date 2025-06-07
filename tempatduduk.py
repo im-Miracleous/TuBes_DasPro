@@ -1,3 +1,6 @@
+import csv
+import jadwalFilm
+
 def deklarasiMatriks(dimensi1,dimensi2) :
     arr = [None]*dimensi1 # array berisi 3 elemen
     for i in range(0,dimensi1,1):
@@ -64,23 +67,16 @@ def isiAlfabetMatriks(baris, kolom):
 
 def main():
     # Menu tipe bioskop
-    tipe = 0
-    while ((tipe < 1) or (tipe > 3)):
-        print('Tipe Bioskop:')
-        print('1. Reguler/Deluxe\tRp.  55.000,00')
-        print('2. 4DX\t\t\tRp. 110.000,00')
-        print('3. Premium Class\tRp. 220.000,00')
-        tipe = int(input('\nPilih tipe bioskop (ketik angka 1-3): '))
-        print('\n==========================================\n')
+    tipe = jadwalFilm.tipe_bioskop()
 
     # Setup tampilan sesuai tipe bioskop
-    if (tipe == 1):
+    if (tipe == "Reguler/Deluxe"):
         baris = 10  # max 26 huruf , 2D 10, 4DX 8
         kolom = 20  # max 2 digit , 2D 20, 4DX 16
-    elif (tipe == 2):
+    elif (tipe == "4DX"):
         baris = 8
         kolom = 16
-    else:
+    elif (tipe == "Premium Class"):
         baris = 5
         kolom = 6
     matrix_kursi_tampilan = deklarasiMatriks(baris, kolom)
@@ -89,7 +85,7 @@ def main():
     # Simpan state kursi 
     for i in range(0, baris, 1):
         for j in range(0, kolom, 1):
-            matrix_kondisi_kursi[i][j] = ' ✓ '
+            matrix_kondisi_kursi[i][j] = ' V '
     
     # Simpan alfabet baris untuk tampilan
     matrix_kursi_tampilan = isiAlfabetMatriks(baris, kolom)
@@ -101,53 +97,80 @@ def main():
                 matrix_kursi_tampilan[i][j] += '0' + str(j+1)
             else:
                 matrix_kursi_tampilan[i][j] += str(j+1)
-    
+
+    daftar_order = ''
+    tiket = 0
     order = ''
     while (order != 'end'):
+        err = False
         for i in range(0, baris, 1):
             for j in range(0, kolom, 1):
                 if (order == matrix_kursi_tampilan[i][j]):
-                    matrix_kondisi_kursi[i][j] = ' X '
+                    if (matrix_kondisi_kursi[i][j] != ' X '):
+                        matrix_kondisi_kursi[i][j] = ' X '
+                        daftar_order += order + ', '
+                        tiket += 1    
+                    else:
+                        print('Maaf tempat duduk tersebut sudah dipesan!')
+                        err = True
+
         # tampilan tempat duduk, i = indeks baris, j = indeks kolom
-        for i in range(0, baris*3+1, 1):
-            if (i == 0):
-                print(end='┌')
-                for j in range(0, kolom, 1):
-                    if (j==kolom-1):
-                        print('-----', end='┐')
-                    else:
-                        print('-----', end='┬')
-            elif (i%3 == 1):
-                print(end='| ')
-                for j in range(0, kolom, 1):
-                    print(matrix_kursi_tampilan[i//3][j], end=' | ')
-            elif (i%3 == 2):
-                print(end='| ')
-                for j in range(0, kolom, 1):
-                    print(matrix_kondisi_kursi[i//3][j], end=' | ')
-            elif (i == baris*3):
-                print(end='└')
-                for j in range(0, kolom, 1):
-                    if (j==kolom-1):
-                        print('-----', end='┘')
-                    else:
-                        print('-----', end='┴')
-            else:
-                print(end='├')
-                for j in range(0, kolom, 1):
-                    if (j==kolom-1):
-                        print('-----', end='┤')
-                    else:
-                        print('-----', end='┼')
-            print()
+        if (not err):
+            for i in range(0, baris*3+1, 1):
+                if (i == 0):
+                    print(end='┌')
+                    for j in range(0, kolom, 1):
+                        if (j==kolom-1):
+                            print('-----', end='┐')
+                        else:
+                            print('-----', end='┬')
+                elif (i%3 == 1):
+                    print(end='| ')
+                    for j in range(0, kolom, 1):
+                        print(matrix_kursi_tampilan[i//3][j], end=' | ')
+                elif (i%3 == 2):
+                    print(end='| ')
+                    for j in range(0, kolom, 1):
+                        print(matrix_kondisi_kursi[i//3][j], end=' | ')
+                elif (i == baris*3):
+                    print(end='└')
+                    for j in range(0, kolom, 1):
+                        if (j==kolom-1):
+                            print('-----', end='┘')
+                        else:
+                            print('-----', end='┴')
+                else:
+                    print(end='├')
+                    for j in range(0, kolom, 1):
+                        if (j==kolom-1):
+                            print('-----', end='┤')
+                        else:
+                            print('-----', end='┼')
+                print()
+            
         order = str(input('\nPesan tempat duduk: '))
+        if (order == 'end'):
+            daftar_order += order
         print()
         for j in range(0, (kolom * 6) + 10, 1):
             print(end='=')
         print('\n')
 
+    with open("seats.csv", "w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerow(['tipe bioskop'])
+        writer.writerow([tipe])
+        writer.writerow([])
+        writer.writerow(['daftar tempat duduk'])
+        writer.writerow([daftar_order])
+        writer.writerow([])
+        writer.writerow(['jumlah tiket'])
+        writer.writerow([tiket])
+        writer.writerow([])
+        writer.writerow(['state tempat duduk'])
+        writer.writerows(matrix_kondisi_kursi)
 
     return 0
 
 if __name__ == '__main__':    
-    main()   
+    main()
