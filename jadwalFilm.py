@@ -28,7 +28,6 @@ def jadwal_Film():
                     if len(film) == 5:
                         print(f"{film[0]:20}{film[1]:>10}{film[2]:>10}{film[3]:>18}{film[4]:>20}")
                 print("-----------------------------------------------------------------------------------")
-                print()
             else:
                 print("Belum ada data film yang tersimpan.")
 

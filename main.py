@@ -19,6 +19,7 @@ def menu():
         print("3. Keluar")
         print("----------------------------------------------------------------\n")
         choose = int(input("Pilihan: "))
+        print("\n----------------------------------------------------------------")
         if (choose < 1 or choose > 3):
             print("Maaf, pilihan tidak valid. Silakan coba lagi.\n")
             time.sleep(2)
@@ -30,8 +31,9 @@ def menu():
             time.sleep(7)
             resi.main()
         elif (choose == 3):
-            print("Keluar dari program...")
+            print("\nKeluar dari program...\n")
             time.sleep(2)
+            print("----------------------------------------------------------------")
     return
 
 def main():
