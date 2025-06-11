@@ -1,20 +1,21 @@
-tipe bioskop
-Reguler/Deluxe
+Judul film
+KDM Bapa Aing 2
+
+Studio
+Studio 1
 
 daftar tempat duduk
-"R01, R02, R03, R04, end"
+"E04, E05, E06, D06, end"
+
+tipe bioskop
+Premium Class
 
 jumlah tiket
 4
 
 state tempat duduk
- V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
- V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
- V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
- V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
- V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
- V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
- V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
- V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
- V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
- V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V
+V,V,V,V,V,V
+V,V,V,V,V,V
+V,V,V,V,V,V
+V,V,V,V,V,X
+X,X,X,X,X,X

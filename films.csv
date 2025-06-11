@@ -1,5 +1,5 @@
 List Jadwal Film
-Judul Film,Jam,Menit,Genre,Rating
-KDM Bapa Aing,10,00,Action,13+
-Aquaman,18,30,Adventure,13+
-
+ID,Judul,Jam,Menit,Genre,Rating,Tipe,Studio
+1,Aquaman,18,30,Adventure,13+,Reguler/Deluxe,Studio 2
+2,KDM Bapa Aing,10,00,Action,13+,4DX,Studio 1
+3,KDM Bapa Aing 2,10,00,Action,13+,Premium Class,Studio 1
