@@ -2,13 +2,12 @@ tipe bioskop
 Reguler/Deluxe
 
 daftar tempat duduk
-"A01, end"
+"R01, R02, R03, R04, end"
 
 jumlah tiket
-1
+4
 
 state tempat duduk
- X , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
  V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
  V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
  V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
@@ -18,3 +17,4 @@ state tempat duduk
  V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
  V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
  V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
+ V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V
