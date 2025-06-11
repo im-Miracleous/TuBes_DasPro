@@ -1,0 +1,20 @@
+tipe bioskop
+Reguler/Deluxe
+
+daftar tempat duduk
+"R01, R02, R03, R04, end"
+
+jumlah tiket
+4
+
+state tempat duduk
+ V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
+ V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
+ V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
+ V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
+ V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
+ V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
+ V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
+ V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
+ V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
+ V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V , V 
