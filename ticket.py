@@ -81,7 +81,7 @@ if data_tiket:
     print(f"| 🪑\tSeats\t       {kursi_str:<43}                          ")
     print(f"| 🎟️\t Tipe Bioskop\t{tipe_bioskop_str:<43}                   ")
     print(f"| 🏢\tStudio\t       {studio_str:<43}                        ")
-    print(f"| 💳\tHarga\t       {harga_str:<43}                ")
+    print(f"| 💳\tHarga\t       {harga_str:<43}                          ")
     print(f"|----------------------------------------------------------|  ")
     print(f"|        📌 Tunjukkan tiket ini saat memasuki studio         |")
     print(f"==============================================================" + "\033[0m")

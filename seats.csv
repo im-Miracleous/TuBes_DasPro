@@ -1,21 +1,15 @@
 Judul film
-KDM Bapa Aing 2
+Aquaman
 
 Studio
-Studio 1
+Studio 2
 
 daftar tempat duduk
-"E04, E05, E06, D06, end"
+"J01, J02, J03, end"
 
 tipe bioskop
-Premium Class
+Reguler/Deluxe
 
 jumlah tiket
-4
+3
 
-state tempat duduk
-V,V,V,V,V,V
-V,V,V,V,V,V
-V,V,V,V,V,V
-V,V,V,V,V,X
-X,X,X,X,X,X
