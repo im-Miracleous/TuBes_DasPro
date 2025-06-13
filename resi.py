@@ -10,6 +10,7 @@ def baca_data_seats(filename):
     tipe_bioskop = None
     jumlah_tiket = None
     daftar_tempat_duduk = None
+    studio = None
     state_tempat_duduk = []
     i = 0
     while i < len(rows):
@@ -23,12 +24,15 @@ def baca_data_seats(filename):
         elif key == 'daftar tempat duduk' and i+1 < len(rows):
             daftar_tempat_duduk = [x.strip() for x in rows[i+1][0].replace('"', '').split(',') if x.strip().lower() != "end"]
             i += 2
+        elif key == 'studio' and i+1 < len(rows):
+            studio = rows[i+1][0].strip().lower()
+            i += 2
         else:
             row = [x.strip() for x in rows[i] if x.strip()]
             if row:
                 state_tempat_duduk.append(row)
             i += 1
-    return [tipe_bioskop, jumlah_tiket, daftar_tempat_duduk, state_tempat_duduk]
+    return [tipe_bioskop, jumlah_tiket, daftar_tempat_duduk, state_tempat_duduk, studio]
 
 def tampilkan_denah_kursi(state_tempat_duduk, daftar_tempat_duduk):
     print("\nDenah Kursi:")
@@ -51,6 +55,7 @@ def main():
     jumlah_tiket = data[1]
     daftar_tempat_duduk = data[2]
     state_tempat_duduk = data[3]
+    studio = data[4]
 
     if 'reguler' in tipe_bioskop_raw or 'deluxe' in tipe_bioskop_raw:
         tipe = "Reguler/Deluxe"
@@ -64,12 +69,13 @@ def main():
 
     def get_nama_film():
         try:
-            with open('films.csv', 'r', encoding='utf-8') as f:
+            with open('seats.csv', 'r', encoding='utf-8') as f:
                 reader = csv.reader(f)
                 rows = list(reader)
-                for film in rows[2:]:
-                    if len(film) >= 4 and tipe_bioskop_raw in film[3].lower():
-                        return film[0]
+                for film in rows[1:]:
+                    # if len(film) >= 4 and tipe_bioskop_raw in film[3].lower(): #! << buat apa ini?
+                    print(film[0])
+                    return film[0]
         except Exception:
             pass
         return "-"
@@ -77,7 +83,7 @@ def main():
 
     # === Tambahan Logika Promo/Diskon ===
     hari_ini = datetime.datetime.now().strftime('%A')
-    if hari_ini in ['Friday', 'Saturday', 'Sunday']:
+    if hari_ini in ['Friday', 'Saturday', 'Sunday']: # Promo hanya berlaku pada hari Jumat, Sabtu, dan Minggu
         promo = 10000
     else:
         promo = 0
@@ -101,7 +107,7 @@ def main():
     print(f" Detail Transaction     {datetime.datetime.now().strftime('%d-%m-%Y %H:%M')} ")
     print(f"                                                ")
     print(f" ------------------                             ")
-    print(f" |                |  {nama_film:27}             ")
+    print(f" |                |  {nama_film}             ")
     print(f" |                |                             ")
     print(f" |                |  Date: {datetime.datetime.now().strftime('%A, %d-%m-%Y')}  ")
     print(f" |                |  Time: {datetime.datetime.now().strftime('%H:%M')}         ")
@@ -115,7 +121,8 @@ def main():
     print(f" ------------------                             ")
     print(f"                                                ")
     print(f" Transaction Ref : Cinegaje/RES/{datetime.datetime.now().strftime('%d%m%Y')}/8349")
-    print(f" Seats           :", ", ".join(daftar_tempat_duduk))
+    print(f" Studio          : {studio}")
+    print(f" Seat            :", ", ".join(daftar_tempat_duduk))
     print(f" Tipe Bioskop    : {tipe}"                       )
     print(f" Total tickets   : {jumlah_tiket}"               )
     print(f" Ticket Price    : Rp {harga}"                   )
