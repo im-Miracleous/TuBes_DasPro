@@ -4,6 +4,7 @@
 import jadwalFilm
 import tempatduduk
 import resi
+import ticket
 import time
 
 def menu():
@@ -30,6 +31,7 @@ def menu():
             print("Memproses pesanan tiket Anda...\n")
             time.sleep(7)
             resi.main()
+            ticket.main()
         elif (choose == 3):
             print("\nKeluar dari program...\n")
             time.sleep(2)
