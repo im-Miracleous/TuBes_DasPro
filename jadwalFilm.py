@@ -13,6 +13,15 @@ def deklarasiMatriks(d1, d2) :
         arr[i] = [None] * d2
     return arr
 
+def interface():
+    print("--------------------------------------------------")
+    print("Pilihan Menu:")
+    print("1. Tambah Film")
+    print("2. Hapus Film")
+    print("3. Lihat Jadwal Film")
+    print("4. Keluar")
+    print("--------------------------------------------------")
+
 def jadwal_Film():
     if os.path.exists('films.csv'):
         with open('films.csv', 'r', encoding='utf-8') as f:
@@ -118,13 +127,7 @@ def tipe_bioskop():
 def main():
     print("\nKONFIGURASI JADWAL FILM")
     print("Note: Selain staff, hanya admin yang dapat mengakses menu ini.")
-    print("--------------------------------------------------")
-    print("Pilihan Menu:")
-    print("1. Tambah Film")
-    print("2. Hapus Film")
-    print("3. Lihat Jadwal Film")
-    print("4. Keluar")
-    print("--------------------------------------------------")
+    interface()
     pilihan = int(input("Masukkan pilihan menu (1-4): "))
     while (pilihan != 4):
         if (pilihan < 1 or pilihan > 4):
@@ -143,6 +146,7 @@ def main():
             hapus_Film(Ndel)
         if (pilihan == 3):
             jadwal_Film()
+        interface()
         pilihan = int(input("Masukkan pilihan menu (1-4): "))
     print("Keluar dari program...")
     time.sleep(2)
