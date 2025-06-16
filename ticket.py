@@ -75,7 +75,7 @@ def main():
         harga_str = f"Rp {total_harga:,.0f}".replace(',', '.')
 
         # 4. Logika untuk Tanggal dan Waktu
-        daftar_hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
+        daftar_hari = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
         waktu_sekarang = datetime.datetime.now()
         nama_hari_ini = daftar_hari[waktu_sekarang.weekday()]
         tanggal_str = f"{nama_hari_ini}, {waktu_sekarang.strftime('%d-%m-%Y')}"
