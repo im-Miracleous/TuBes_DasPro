@@ -14,13 +14,13 @@ def deklarasiMatriks(d1, d2) :
     return arr
 
 def interface():
-    print("--------------------------------------------------")
+    print("\n--------------------------------------------------")
     print("Pilihan Menu:")
     print("1. Tambah Film")
     print("2. Hapus Film")
     print("3. Lihat Jadwal Film")
     print("4. Keluar")
-    print("--------------------------------------------------")
+    print("--------------------------------------------------\n")
 
 def jadwal_Film():
     if os.path.exists('films.csv'):
@@ -41,27 +41,63 @@ def jadwal_Film():
                 print("Belum ada data film yang tersimpan.")
 
 def tambah_Film(N):
-    films = deklarasiMatriks(N, 5)
+    global recent_id
+    films = deklarasiMatriks(N, 8)
+    # Cek apakah file sudah ada dan baca jumlah film yang sudah ada
+    file_exists = os.path.exists('films.csv')
+    existing_rows = []
+    if file_exists:
+        with open('films.csv', 'r', encoding='utf-8') as f:
+            reader = csv.reader(f)
+            rows = list(reader)
+            # Data film mulai dari baris ke-3 (indeks 2)
+            existing_rows = rows[2:]
+    next_id = len(existing_rows) + 1
     # Input data film
     print("\nMasukkan data jadwal film:")
     for i in range(N):
+        id_num = next_id + i
         judul = input(f"Judul Film ke-{i+1}: ")
         jam = str(input(f"Jam Tayang Film ke-{i+1}: "))
         menit = str(input(f"Menit Tayang Film ke-{i+1}: "))
         genre = str(input(f"Genre Film: "))
         rating = str(input(f"Rating Usia: "))
-        films[i][0] = judul
-        films[i][1] = jam
-        films[i][2] = menit
-        films[i][3] = genre
-        films[i][4] = rating
+        tipe = tipe_bioskop()
+        studio = int(input(f"Studio: "))
+        films[i][0] = id_num
+        films[i][1] = judul
+        films[i][2] = jam
+        films[i][3] = menit
+        films[i][4] = genre
+        films[i][5] = rating
+        films[i][6] = tipe
+        films[i][7] = f"Studio {studio}"
+        
+        if tipe == "Reguler/Deluxe":
+            baris = 10
+            kolom = 20
+        elif (tipe == "4DX"):
+            baris = 8
+            kolom = 16
+        elif (tipe == "Premium Class"):
+            baris = 5
+            kolom = 6
+        # Simpan state tempat duduk
+        simpan_state_tempat_duduk(id_num, baris, kolom)
+    
+    # Debug print matriks films
+    print("\nData film yang akan disimpan:")
+    for film in films:
+        print(film)
+    
     # Simpan ke CSV
-    with open('films.csv', 'w', newline='', encoding='utf-8') as f:
+    write_header = not file_exists or os.stat('films.csv').st_size == 0
+    with open('films.csv', 'a', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
-        writer.writerow(["List Jadwal Film"])
-        writer.writerow(["Judul Film", "Jam", "Menit", "Genre", "Rating"])
+        if write_header:
+            writer.writerow(["List Jadwal Film"])
+            writer.writerow(["ID", "Judul Film", "Jam", "Menit", "Genre", "Rating", "Tipe", "Studio"])
         writer.writerows(films)
-        writer.writerow([])  # Tambahkan baris kosong setelah data
     return films
 
 def hapus_Film(N):
@@ -69,26 +105,56 @@ def hapus_Film(N):
         with open('films.csv', 'r', encoding='utf-8') as f:
             reader = csv.reader(f)
             rows = list(reader)
-            if len(rows) > 1:
+            if len(rows) > 2:
                 print("\nJadwal Bioskop:")
-                print("-----------------------------------------------------------------------------------")
-                header = rows[0]
-                print(f"{header[0]:20}{header[1]:>10}{header[2]:>10}")
-                print("-----------------------------------------------------------------------------------")
-                for film in rows[1:]:
-                    print(f"{film[0]:20}{film[1]:>10}{film[2]:>10}{film[3]:>18}{film[4]:>20}")
-                print("-----------------------------------------------------------------------------------")
-                # Hapus film
+                jadwal_Film()
+                deleted_ids = []
                 for i in range(N):
-                    index = int(input(f"Masukkan indeks film yang ingin dihapus (0-{len(rows)-2}): "))
-                    if 0 <= index < len(rows) - 1:
+                    index = int(input(f"Masukkan nomor film yang ingin dihapus (1-{len(rows)-2}): "))
+                    if 1 <= index <= len(rows) - 2:
+                        deleted_id = rows[index + 1][0]
+                        deleted_ids.append(deleted_id)
                         del rows[index + 1]
                     else:
-                        print("Indeks tidak valid.")
-                # Simpan kembali ke CSV
+                        print("Nomor tidak valid.")
+                # Renumber IDs in films.csv
+                for idx, row in enumerate(rows[2:], start=1):
+                    if len(row) == 8:
+                        row[0] = str(idx)
                 with open('films.csv', 'w', newline='', encoding='utf-8') as f:
                     writer = csv.writer(f)
                     writer.writerows(rows)
+                # Update state_tempat_duduk.csv
+                if os.path.exists('state_tempat_duduk.csv'):
+                    with open('state_tempat_duduk.csv', 'r', encoding='utf-8') as f:
+                        lines = f.readlines()
+                    new_lines = []
+                    skip = False
+                    skip_count = 0
+                    for line in lines:
+                        if skip:
+                            skip_count -= 1
+                            if skip_count == 0:
+                                skip = False
+                            continue
+                        if line.strip() in deleted_ids:
+                            # Determine how many seat rows to skip (count until next digit or EOF)
+                            skip = True
+                            skip_count = 0
+                            idx = lines.index(line) + 1
+                            while idx < len(lines) and not lines[idx].strip().isdigit():
+                                skip_count += 1
+                                idx += 1
+                            continue
+                        new_lines.append(line)
+                    # Renumber remaining studio IDs
+                    studio_counter = 1
+                    for i, line in enumerate(new_lines):
+                        if line.strip().isdigit():
+                            new_lines[i] = f'{studio_counter}\n'
+                            studio_counter += 1
+                    with open('state_tempat_duduk.csv', 'w', encoding='utf-8') as f:
+                        f.writelines(new_lines)
             else:
                 print("Belum ada data film yang tersimpan.")
     else:
@@ -114,7 +180,6 @@ def tipe_bioskop():
             index_tipe = int(input('\nPilih tipe bioskop (ketik angka 1-3): '))
             if (index_tipe < 1 or index_tipe > 3):
                 print('Maaf tolong masukan angka di antara 1-3!')
-    print('\n===============================================\n')
     if index_tipe == 1:
         tipe = "Reguler/Deluxe"
     elif index_tipe == 2:
@@ -122,6 +187,15 @@ def tipe_bioskop():
     elif index_tipe == 3:
         tipe = "Premium Class"
     return tipe
+
+def simpan_state_tempat_duduk(studio_id, baris, kolom, filename='state_tempat_duduk.csv'):
+    import csv
+    with open(filename, 'a', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow([])
+        writer.writerow([studio_id])
+        for _ in range(baris):
+            writer.writerow(['V'] * kolom)
 
 ## PROGRAM UTAMA
 def main():
