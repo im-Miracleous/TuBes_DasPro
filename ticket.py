@@ -1,6 +1,25 @@
+# File : ticket.py
+# Penulis : Richard Vincentius Christian Dinata
+# Tujuan Program :
+# Program ini digunakan untuk membaca data kursi dari file CSV, menghitung harga tiket, dan menampilkan informasi tiket bioskop.
+
+# Import Library
+
 import csv
 import datetime
 
+## Definisi Fungsi ##
+
+# Fungsi baca_data_seats(filename)
+# Fungsi ini membaca data kursi dari file CSV dan mengembalikan informasi terkait bioskop, jumlah tiket, daftar tempat duduk, dan status tempat duduk.
+    # Kamus Lokal
+# data : dictionary untuk menyimpan data yang dibaca dari file (dict)
+# filename : nama file CSV yang akan dibaca (str)
+# rows : daftar baris yang dibaca dari file CSV (list of list of str)
+# i : indeks untuk iterasi melalui baris-baris file (int)
+# key : kunci untuk menentukan jenis data yang sedang dibaca (str)
+# kursi_raw : string yang berisi daftar kursi yang dibaca dari file (str)
+# state_raw : string yang berisi status kursi yang dibaca dari file (str)
 def baca_data_seats(filename="seats.csv"):
     """
     Fungsi ini membaca file seats.csv dan mengembalikan data dalam bentuk dictionary.
@@ -43,8 +62,27 @@ def baca_data_seats(filename="seats.csv"):
         print(f"Error: File '{filename}' tidak ditemukan.")
         return None
 
-# --- BAGIAN LOGIKA UTAMA ---
-
+## PROGRAM UTAMA ##
+    # Kamus Lokal
+    # data_tiket : dictionary yang berisi data tiket yang dibaca dari file (dict)
+    # judul_film : judul film yang dibaca dari data_tiket (str)
+    # tipe_bioskop_raw : tipe bioskop yang dibaca dari data_tiket (str)
+    # jumlah_tiket : jumlah tiket yang dibaca dari data_tiket (int)
+    # daftar_tempat_duduk : daftar tempat duduk yang dibaca dari data_tiket (list of str)
+    # studio : studio yang dibaca dari data_tiket (str)
+    # kursi_str : string yang berisi daftar kursi yang sudah dipesan (str)
+    # tipe_bioskop_str : string yang berisi tipe bioskop (str)
+    # harga_satuan : harga per tiket berdasarkan tipe bioskop (int)
+    # total_harga : total harga tiket yang harus dibayar (int)
+    # harga_str : string yang berisi total harga dalam format mata uang Rupiah (str)
+    # waktu_sekarang : objek datetime untuk mendapatkan waktu saat ini (datetime)
+    # nama_hari_ini : nama hari saat ini (str)
+    # tanggal_str : string yang berisi tanggal saat ini dalam format 'Hari, DD-MM-YYYY' (str)
+    # waktu_str : string yang berisi waktu saat ini dalam format 'HH:MM' (str)
+    # # rows : jumlah baris pada denah kursi (int)
+    # # cols : jumlah kolom pada denah kursi (int)
+    # # seat_code : kode kursi yang sedang ditampilkan (str)
+    # # i, j : indeks untuk iterasi melalui baris-baris denah kursi (int)
 def main():
     # 1. Baca data dari seats.csv
     data_tiket = baca_data_seats("seats.csv")

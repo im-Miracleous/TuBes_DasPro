@@ -1,7 +1,26 @@
+# File : resi.py
+# Penulis : Richard Vincentius Christian Dinata
+# Tujuan Program :
+# Program ini digunakan untuk membaca data kursi dari file CSV, menampilkan denah kursi, dan mencetak resi pembelian tiket bioskop.
+
 import csv
 import datetime
-import jadwalFilm
 
+## Definisi Fungsi ##
+
+# Fungsi baca_data_seats(filename)
+# Fungsi ini membaca data kursi dari file CSV dan mengembalikan informasi terkait bioskop, jumlah tiket, daftar tempat duduk, dan status tempat duduk.
+    # Kamus Lokal
+    # tipe_bioskop : tipe bioskop yang dibaca dari file (str)
+    # jumlah_tiket : jumlah tiket yang dibaca dari file (int)
+    # daftar_tempat_duduk : daftar tempat duduk yang dibaca dari file (list of str)
+    # studio : studio yang dibaca dari file (str)
+    # state_tempat_duduk : status tempat duduk yang dibaca dari file (list of list of str)
+    # i : indeks untuk iterasi melalui baris-baris file (int)
+    # rows : daftar baris yang dibaca dari file CSV (list of list of str)
+    # row : baris yang sedang diproses (list of str)
+    # key : kunci untuk menentukan jenis data yang sedang dibaca (str)
+    # x : variabel untuk iterasi dalam daftar tempat duduk (str)
 def baca_data_seats(filename):
     with open(filename, "r", encoding="utf-8") as file:
         reader = csv.reader(file)
@@ -34,6 +53,14 @@ def baca_data_seats(filename):
             i += 1
     return [tipe_bioskop, jumlah_tiket, daftar_tempat_duduk, state_tempat_duduk, studio]
 
+# Fungsi tampilkan_denah_kursi(state_tempat_duduk, daftar_tempat_duduk)
+# Fungsi ini menampilkan denah kursi bioskop berdasarkan status tempat duduk dan daftar tempat duduk yang sudah dipesan.
+    # Kamus Lokal
+    # rows : jumlah baris pada denah kursi (int)
+    # cols : jumlah kolom pada denah kursi (int)
+    # seat_code : kode kursi yang sedang ditampilkan (str)
+    # i, j : indeks untuk iterasi melalui baris-baris denah kursi (int)
+    
 def tampilkan_denah_kursi(state_tempat_duduk, daftar_tempat_duduk):
     print("\nDenah Kursi:")
     rows = len(state_tempat_duduk)
@@ -49,6 +76,22 @@ def tampilkan_denah_kursi(state_tempat_duduk, daftar_tempat_duduk):
                 print(f"[ {state_tempat_duduk[i][j]} ]", end=" ")
         print()
 
+## PROGRAM UTAMA ##
+    # Kamus Lokal
+    # data : data yang dibaca dari file CSV (list)
+    # tipe_bioskop_raw : tipe bioskop yang dibaca dari data (str)
+    # jumlah_tiket : jumlah tiket yang dibaca dari data (int)
+    # daftar_tempat_duduk : daftar tempat duduk yang dibaca dari data (list of str)
+    # state_tempat_duduk : status tempat duduk yang dibaca dari data (list of list of str)
+    # studio : studio yang dibaca dari data (str)
+    # tipe : tipe bioskop yang ditentukan berdasarkan tipe_bioskop_raw (str)
+    # harga : harga tiket berdasarkan tipe bioskop (int)
+    # nama_film : nama film yang ditentukan berdasarkan data (str)
+    # hari_ini : hari ini dalam format string (str)
+    # promo : jumlah promo yang diberikan berdasarkan hari (int)
+    # total_payment : total pembayaran yang dihitung berdasarkan jumlah tiket, harga, dan promo (int)
+    # metode_tersedia : daftar metode pembayaran yang tersedia (list of str)
+    # metode_pembayaran : metode pembayaran yang dipilih oleh user (str)
 def main():
     data = baca_data_seats("seats.csv")
     tipe_bioskop_raw = data[0]
@@ -67,6 +110,14 @@ def main():
         tipe = "Premium"
         harga = 350000
 
+    # Fungsi child untuk mendapatkan nama film dari file CSV
+    # Fungsi ini membaca file CSV dan mengembalikan nama film yang pertama ditemukan.
+        # Kamus Lokal
+        # get_nama_film : fungsi untuk mendapatkan nama film dari file CSV (function)
+        # f : file handler untuk membaca file CSV (file object)
+        # reader : objek pembaca CSV untuk membaca baris-baris file (csv.reader)
+        # rows : daftar baris yang dibaca dari file CSV (list of list of str)
+        # film : baris yang sedang diproses untuk mendapatkan nama film (list of str)
     def get_nama_film():
         try:
             with open('seats.csv', 'r', encoding='utf-8') as f:
@@ -79,6 +130,7 @@ def main():
         except Exception:
             pass
         return "-"
+    
     nama_film = get_nama_film()
 
     # === Tambahan Logika Promo/Diskon ===

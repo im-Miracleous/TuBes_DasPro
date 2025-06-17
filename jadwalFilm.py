@@ -1,18 +1,32 @@
-# File : jadwalFilm.py 
+# File : jadwalFilm.py
+# Penulis : Miracle Steven Gerrald
+# Tujuan Program :
 # Program menampilkan jadwal film yang tayang di bioskop Cinegaje
 
-# MASIH TENTATIVE!
-
+# Import Library
 import csv
 import os
 import time
 
+## Definisi Fungsi ##
+
+# Fungsi deklarasiMatriks(d1, d2)
+# Fungsi ini digunakan untuk mendeklarasikan matriks 2D dengan ukuran d1 x d2, dan akan mengembalikan nilai arr.
+    # Kamus Lokal
+    # arr : list 2D untuk menyimpan data film (list of lists)
+    # d1 : jumlah baris matriks (int)
+    # d2 : jumlah kolom matriks (int)
+    # i : indeks untuk iterasi baris (int)
 def deklarasiMatriks(d1, d2) :
     arr = [None] * d1
     for i in range(0, d1, 1):
         arr[i] = [None] * d2
     return arr
 
+# Fungsi interface()
+# Fungsi ini menampilkan interface menu utama untuk mengelola jadwal film.
+    # Kamus Lokal
+    # -
 def interface():
     print("\n--------------------------------------------------")
     print("Pilihan Menu:")
@@ -22,6 +36,17 @@ def interface():
     print("4. Keluar")
     print("--------------------------------------------------\n")
 
+# Fungsi jadwal_Film()
+# Fungsi ini menampilkan jadwal film yang tersimpan dalam file 'films.csv'.
+# Jika file tidak ada atau tidak ada data film yang tersimpan, akan menampilkan pesan yang sesuai.
+    # Kamus Lokal
+    # reader : objek pembaca CSV untuk membaca file 'films.csv'
+    # f : objek file untuk membuka file 'films.csv'
+    # os : modul untuk memeriksa keberadaan file
+    # csv : modul untuk membaca dan menulis file CSV
+    # rows : list untuk menyimpan baris-baris dari file CSV (list of lists)
+    # header : list untuk menyimpan header dari file CSV (list)
+    # film : list untuk menyimpan data film (list)
 def jadwal_Film():
     if os.path.exists('films.csv'):
         with open('films.csv', 'r', encoding='utf-8') as f:
@@ -40,6 +65,17 @@ def jadwal_Film():
             else:
                 print("Belum ada data film yang tersimpan.")
 
+# Fungsi tambah_Film(N)
+# Fungsi ini digunakan untuk menambahkan film baru ke dalam jadwal bioskop, di mana ia akan meminta input dari user untuk data film, menyimpan data tersebut ke dalam matriks, dan menyimpannya ke file 'films.csv'. Jika file 'films.csv' sudah ada, akan membaca jumlah film yang sudah ada untuk menentukan ID film berikutnya.
+    # Kamus Lokal
+    # N : jumlah film yang akan ditambahkan (int)
+    # films : matriks 2D untuk menyimpan data film (list of lists)
+    # file_exists : boolean untuk memeriksa apakah file 'films.csv' sudah ada (bool)
+    # existing_rows : list untuk menyimpan baris-baris yang sudah ada dalam file 'films.csv' (list of lists)
+    # next_id : ID film berikutnya yang akan digunakan (int)
+    # id_num : ID film yang sedang diinput (int)
+    # judul, jam, menit, genre, rating, tipe : variabel untuk menyimpan input dari user (str)
+    # baris, kolom : jumlah baris dan kolom untuk tempat duduk berdasarkan tipe bioskop (int)
 def tambah_Film(N):
     global recent_id
     films = deklarasiMatriks(N, 8)
@@ -100,6 +136,22 @@ def tambah_Film(N):
         writer.writerows(films)
     return films
 
+# Fungsi hapus_Film(N)
+# Fungsi ini digunakan untuk menghapus film dari jadwal bioskop berdasarkan ID yang dimasukkan oleh user. Ia akan membaca file 'films.csv', menampilkan jadwal film, dan menghapus film yang dipilih. Setelah itu, ia akan memperbarui ID film dan menyimpan kembali ke file 'films.csv'.
+    # Kamus Lokal
+    # N : jumlah film yang akan dihapus (int)
+    # reader : objek pembaca CSV untuk membaca file 'films.csv'
+    # f : objek file untuk membuka file 'films.csv'
+    # os : modul untuk memeriksa keberadaan file
+    # deleted_ids : list untuk menyimpan ID film yang dihapus (list)
+    # index : indeks film yang akan dihapus (int)
+    # rows : list untuk menyimpan baris-baris dari file CSV (list of lists)
+    # lines : list untuk menyimpan baris-baris dari file 'state_tempat_duduk.csv' (list of strings)
+    # new_lines : list untuk menyimpan baris-baris baru setelah penghapusan (list of strings)
+    # skip : boolean untuk menentukan apakah harus melewati baris tertentu (bool)
+    # skip_count : jumlah baris yang harus dilewati (int)
+    # idx : indeks untuk iterasi baris (int)
+    # studio_counter : penghitung untuk ID studio yang tersisa (int)
 def hapus_Film(N):
     if os.path.exists('films.csv'):
         with open('films.csv', 'r', encoding='utf-8') as f:
@@ -160,6 +212,11 @@ def hapus_Film(N):
     else:
         print("File films.csv tidak ditemukan.")
 
+# Fungsi harga_tiket(tipe)
+# Fungsi ini mengembalikan harga tiket berdasarkan tipe bioskop yang dipilih.
+    # Kamus Lokal
+    # tipe : tipe bioskop yang dipilih (str)
+    # price : harga tiket untuk tipe bioskop yang dipilih (int)
 def harga_tiket(tipe):
     if (tipe == "Reguler/Deluxe"):
         price = 55000
@@ -169,6 +226,11 @@ def harga_tiket(tipe):
         price = 220000
     return price
 
+# Fungsi tipe_bioskop()
+# Fungsi ini menampilkan pilihan tipe bioskop dan meminta user untuk memilih salah satu, dan mengembalikan tipe yang dipilih.
+    # Kamus Lokal
+    # index_tipe : indeks tipe bioskop yang dipilih (int)
+    # tipe : tipe bioskop yang dipilih (str)
 def tipe_bioskop():
     index_tipe = 0
     while index_tipe < 1 or index_tipe > 3:
@@ -188,6 +250,13 @@ def tipe_bioskop():
         tipe = "Premium Class"
     return tipe
 
+# Fungsi simpan_state_tempat_duduk(studio_id, baris, kolom, filename='state_tempat_duduk.csv')
+# Fungsi ini menyimpan state tempat duduk untuk studio tertentu ke dalam file 'state_tempat_duduk.csv'.
+    # Kamus Lokal
+    # studio_id : ID studio yang akan disimpan (int)
+    # baris : jumlah baris tempat duduk (int)
+    # kolom : jumlah kolom tempat duduk (int)
+    # filename : nama file untuk menyimpan state tempat duduk (str)
 def simpan_state_tempat_duduk(studio_id, baris, kolom, filename='state_tempat_duduk.csv'):
     import csv
     with open(filename, 'a', newline='') as f:
@@ -197,7 +266,12 @@ def simpan_state_tempat_duduk(studio_id, baris, kolom, filename='state_tempat_du
         for _ in range(baris):
             writer.writerow(['V'] * kolom)
 
-## PROGRAM UTAMA
+
+## PROGRAM UTAMA ##
+    # Kamus Lokal
+    # pilihan : pilihan menu yang dimasukkan oleh user (int)
+    # N : jumlah film yang akan ditambahkan (int)
+    # Ndel : jumlah film yang akan dihapus (int)
 def main():
     print("\nKONFIGURASI JADWAL FILM")
     print("Note: Selain staff, hanya admin yang dapat mengakses menu ini.")

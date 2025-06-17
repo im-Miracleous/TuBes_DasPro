@@ -1,12 +1,21 @@
-# File : main.py 
+# File : main.py
+# Penulis : Miracle Steven Gerrald
+# Tujuan Program : 
 # Program menampilkan interface utama untuk aplikasi booking tiket bioskop
 
+# Import Library
 import jadwalFilm
 import tempatduduk
 import resi
 import ticket
 import time
 
+## Definisi Fungsi ##
+
+# Fungsi menu()
+# Fungsi ini menampilkan menu utama aplikasi booking tiket bioskop dan menangani pilihan yang dipilih oleh user.
+    # Kamus Lokal
+    # choose : variabel untuk menyimpan pilihan menu yang dipilih oleh user (int)
 def menu():
     print("\nSelamat datang di bioskop Cinegaje!")
     print('"Walau nonton tak jelas, abis nonton pasti puas!"')
@@ -38,6 +47,10 @@ def menu():
             print("----------------------------------------------------------------")
     return
 
+# Fungsi main()
+# Fungsi ini adalah fungsi utama yang memanggil fungsi menu() untuk menjalankan aplikasi.
+    # Kamus Lokal
+    # -
 def main():
     menu()
     

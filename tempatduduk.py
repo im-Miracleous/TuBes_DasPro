@@ -1,12 +1,35 @@
+# File : tempatduduk.py
+# Penulis : Sean Patrick
+# Tujuan program:
+# Program ini digunakan untuk mengelola tempat duduk di bioskop, termasuk menampilkan kursi yang tersedia, memesan kursi, dan menyimpan status kursi.
+
 import csv
 import jadwalFilm
 
+## Definisi Fungsi ##
+
+# Fungsi deklarasiMatriks(dimensi1, dimensi2)
+# Fungsi ini digunakan untuk mendeklarasikan matriks tempat duduk dengan jumlah baris dan kolom yang ditentukan.
+    # Kamus lokal
+    #  dimensi1: variabel untuk menyimpan jumlah baris matriks (integer)
+    #  dimensi2: variabel untuk menyimpan jumlah kolom matriks (integer)
+    #  arr: array kosong berisi matriks tempat duduk
+    #  i: variabel untuk indeks baris (integer)
+    #  j: variabel untuk indeks kolom (integer)
 def deklarasiMatriks(dimensi1,dimensi2) :
     arr = [None]*dimensi1 # array berisi 3 elemen
     for i in range(0,dimensi1,1):
         arr[i] = [None]*dimensi2
     return arr
 
+# Fungsi isiAlfabetMatriks(baris, kolom)
+# Fungsi ini mengisi matriks dengan huruf alfabet dari A sampai Z sesuai dengan jumlah baris yang ditentukan.
+    # Kamus lokal
+    #  baris: variabel untuk menyimpan jumlah baris matriks (integer)
+    #  kolom: variabel untuk menyimpan jumlah kolom matriks (integer)
+    #  matriks: variabel untuk menyimpan bagian alfabet dalam tampilan tempat duduk
+    #  i: variabel untuk indeks baris (integer)
+    #  j: variabel untuk indeks kolom (integer)
 def isiAlfabetMatriks(baris, kolom):
     matriks = deklarasiMatriks(baris, kolom)
     for i in range(0, baris, 1):
@@ -65,16 +88,37 @@ def isiAlfabetMatriks(baris, kolom):
                 matriks[i][j] = 'Z'
     return matriks
 
+# Fungsi ambil_tipe_dari_id(id_film)
+# Fungsi ini mengambil tipe film berdasarkan ID film yang dipilih dari file 'films.csv'.
+    # Kamus lokal
+    #  id_film: variabel untuk menyimpan ID film yang dipilih (integer)
+    #  file: variabel untuk membuka file 'films.csv' (file object)
+    #  reader: variabel untuk membaca file CSV (csv.DictReader object)
+    #  row: variabel untuk menyimpan setiap baris data dari file CSV (dictionary)
+    #  selesai: variabel untuk menandakan apakah pencarian selesai (boolean)
 def ambil_tipe_dari_id(id_film):
     with open('films.csv', mode='r', encoding='utf-8') as file:
         next(file)  # Lewati baris "List Jadwal Film"
         reader = csv.DictReader(file)
-        for row in reader:
-            if int(row['ID']) == id_film:
-                return row['Tipe']        
-    print("\n❌ ID film tidak ditemukan dalam state_tempat_duduk.csv")
-    return None  # jika ID tidak ditemukan
+        selesai = False
+        row = next(reader, None)  # Ambil baris pertama
+        # Mencari tipe film berdasarkan ID
+        while ((not selesai) and (row != None)):
+            if ((row != None) and (int(row['ID']) == id_film)):
+                selesai = True
+                return row['Tipe'] 
+            row = next(reader, None)
+    # Jika ID film tidak ditemukan, tampilkan pesan kesalahan
+    if (not selesai):
+        print("❌ ID film tidak ditemukan!")
+        return None
 
+# Fungsi ambil_ukuran_dari_tipe(tipe)
+# Fungsi ini mengambil ukuran baris dan kolom kursi berdasarkan tipe bioskop yang dipilih.
+    # Kamus lokal
+    #  tipe: variabel untuk menyimpan tipe bioskop (string)
+    #  baris: variabel untuk menyimpan jumlah baris kursi (integer)
+    #  kolom: variabel untuk menyimpan jumlah kolom kursi (integer)
 def ambil_ukuran_dari_tipe(tipe):
     global baris, kolom
     if tipe == "Reguler/Deluxe":
@@ -86,9 +130,21 @@ def ambil_ukuran_dari_tipe(tipe):
     elif (tipe == "Premium Class"):
         baris = 5
         kolom = 6
-    else:
-        raise ValueError("Tipe bioskop tidak dikenal")
 
+# Fungsi ambil_state_kursi(id_film)
+# Fungsi ini mengambil status kursi dari file 'state_tempat_duduk.csv' berdasarkan ID film yang dipilih.
+    # Kamus lokal
+    #  id_film: variabel untuk menyimpan ID film yang dipilih (integer)
+    #  matrix: variabel untuk menyimpan matriks tempat duduk (list of lists)
+    #  selesai: variabel untuk menandakan apakah pencarian selesai (boolean)
+    #  i: variabel untuk indeks baris (integer) 
+    #  line: variabel untuk menyimpan setiap baris dari file (string)
+    #  line_kursi: variabel untuk menyimpan baris kursi yang valid (string)
+    #  kursi: variabel untuk menyimpan kursi yang valid (string)
+    #  baris: variabel untuk menyimpan jumlah baris kursi (integer)
+    #  kolom: variabel untuk menyimpan jumlah kolom kursi (integer)
+    #  file: variabel untuk membuka file 'state_tempat_duduk.csv' (file object)
+    #  lines: variabel untuk menyimpan semua baris dari file (list of strings)
 def ambil_state_kursi(id_film):
     global baris, kolom
     matrix = []
@@ -98,22 +154,32 @@ def ambil_state_kursi(id_film):
         lines = file.readlines()
 
     i = 0
-    while i < len(lines) and not selesai:
+    while ((i < len(lines)) and (not selesai)):
         line = lines[i].strip()
 
-        if line == str(id_film):
+        if (line == str(id_film)):
             i += 1
-            while i < len(lines) and not selesai:
+            while ((i < len(lines)) and (not selesai)):
                 line_kursi = lines[i].strip()
-                if line_kursi.isdigit():  # ID film berikutnya
+                if (line_kursi.isdigit()):  # ID film berikutnya
                     selesai = True
-                elif line_kursi:  # baris kursi valid
+                elif (line_kursi):  # baris kursi valid
                     matrix.append([kursi.strip() for kursi in line_kursi.split(',')])
                 i += 1
         else:
             i += 1
     return matrix
 
+# Fungsi simpan_state_kursi(film_id, matrix)
+# Fungsi ini menyimpan status kursi ke file 'state_tempat_duduk.csv' berdasarkan ID film yang dipilih, dan akan menggantikan baris lama dengan data baru jika ID film sudah ada, atau menambahkan data baru di akhir file jika ID film belum ada.
+    # Kamus lokal
+    #  film_id: variabel untuk menyimpan ID film yang dipilih (integer)
+    #  matrix: variabel untuk menyimpan matriks tempat duduk (list of lists)
+    #  filename: variabel untuk menyimpan nama file 'state_tempat_duduk.csv' (string)
+    #  lines: variabel untuk menyimpan semua baris dari file (list of strings)
+    #  i: variabel untuk indeks baris (integer)
+    #  found: variabel untuk menandakan apakah ID film ditemukan (boolean)
+    #  result: variabel untuk menyimpan hasil akhir yang akan ditulis ke file (list of strings)
 def simpan_state_kursi(film_id, matrix):
     filename = 'state_tempat_duduk.csv'
 
@@ -147,6 +213,28 @@ def simpan_state_kursi(film_id, matrix):
     with open(filename, 'w', encoding='utf-8') as f:
         f.writelines(result)  
 
+
+## Program Utama ##
+    # Kamus lokal
+    # baris: variabel untuk menyimpan jumlah baris kursi (integer)
+    # kolom: variabel untuk menyimpan jumlah kolom kursi (integer)
+    # tipe: variabel untuk menyimpan tipe bioskop (string)
+    # id_film: variabel untuk menyimpan ID film yang dipilih (integer)
+    # matrix_kursi_tampilan: matriks untuk menyimpan matriks tempat duduk yang akan ditampilkan
+    # matrix_kondisi_kursi: matriks untuk menyimpan kondisi kursi
+    # daftar_order: string untuk menyimpan daftar tempat duduk yang dipesan
+    # tiket: variabel untuk menyimpan jumlah tiket yang dipesan (integer)
+    # order: variabel untuk menyimpan input pengguna untuk memesan kursi (string)
+    # err: variabel untuk menandakan apakah ada kesalahan dalam pemesanan (boolean)
+    # selesai: variabel untuk menandakan apakah pemesanan selesai dicari (boolean)
+    # i: variabel untuk indeks baris (integer)
+    # j: variabel untuk indeks kolom (integer)
+    # file: variabel untuk membuka file 'films.csv' (file object)
+    # reader: variabel untuk membaca file CSV (csv.DictReader object)
+    # row: variabel untuk menyimpan setiap baris data dari file CSV (dictionary)
+    # judul: variabel untuk menyimpan judul film (string)
+    # studio: variabel untuk menyimpan studio film (string)
+    # selesai: variabel untuk menandakan apakah pencarian selesai (boolean)
 def main():
     global baris, kolom
     
@@ -252,10 +340,14 @@ def main():
     with open('films.csv', mode='r', encoding='utf-8') as film:
         next(film)  # Lewati baris "List Jadwal Film"
         reader = csv.DictReader(film)
-        for row in reader:
+        selesai = False
+        row = next(reader, None)  # Ambil baris pertama
+        # Mencari tipe film berdasarkan ID
+        while ((not selesai) and (row != None)):
             if int(row['ID']) == id_film:
                 judul = row['Judul']
                 studio = row['Studio']
+            row = next(reader, None)
 
     with open("seats.csv", "w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
@@ -278,6 +370,9 @@ def main():
         writer.writerow([])
     return 0
 
+# Kamus Global
+    #  baris: variabel untuk menyimpan jumlah baris kursi (integer)
+    #  kolom: variabel untuk menyimpan jumlah kolom kursi (integer)
 if __name__ == '__main__':    
     baris = 0
     kolom = 0
