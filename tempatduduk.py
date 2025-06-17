@@ -71,7 +71,8 @@ def ambil_tipe_dari_id(id_film):
         reader = csv.DictReader(file)
         for row in reader:
             if int(row['ID']) == id_film:
-                return row['Tipe']
+                return row['Tipe']        
+    print("\n❌ ID film tidak ditemukan dalam state_tempat_duduk.csv")
     return None  # jika ID tidak ditemukan
 
 def ambil_ukuran_dari_tipe(tipe):
@@ -111,11 +112,7 @@ def ambil_state_kursi(id_film):
                 i += 1
         else:
             i += 1
-
-    if matrix:
-        return matrix
-    else:
-        print("❌ ID film tidak ditemukan dalam state_tempat_duduk.csv")
+    return matrix
 
 def simpan_state_kursi(film_id, matrix):
     filename = 'state_tempat_duduk.csv'
@@ -152,16 +149,20 @@ def simpan_state_kursi(film_id, matrix):
 
 def main():
     global baris, kolom
-
-    jadwalFilm.jadwal_Film()
     
-    id_film = int(input('\nPilih ID film yang ingin ditonton: '))
-    tipe = ambil_tipe_dari_id(id_film)
+    tipe = None
+
+    while (tipe == None):
+        jadwalFilm.jadwal_Film()
+        
+        id_film = int(input('\nPilih ID film yang ingin ditonton: '))
+        tipe = ambil_tipe_dari_id(id_film)
+        print("\n---------------------------------------------------------------------------------------------------------------------------\n")
+
     ambil_ukuran_dari_tipe(tipe)
     matrix_kursi_tampilan = deklarasiMatriks(baris, kolom)
     matrix_kondisi_kursi = deklarasiMatriks(baris, kolom)
-    print("\n---------------------------------------------------------------------------------------------------------------------------\n")
-
+    
     # Simpan state kursi dari state_tempat_duduk.csv
     matrix_kondisi_kursi = ambil_state_kursi(id_film)
     
@@ -181,17 +182,28 @@ def main():
     order = ''
     while (order != 'end'):
         err = False
-        for i in range(0, baris, 1):
-            for j in range(0, kolom, 1):
+        selesai = False
+        i=0
+        # tampilan tempat duduk, i = indeks baris, j = indeks kolom
+        while ((not selesai) and (i < baris)):
+            j = 0
+            while ((not selesai) and (j < kolom)):
                 if (order == matrix_kursi_tampilan[i][j]):
                     if (matrix_kondisi_kursi[i][j] != 'X'):
                         matrix_kondisi_kursi[i][j] = 'X'
                         daftar_order += order + ', '
                         tiket += 1    
+                        selesai = True
+                        print('Pesanan berhasil!\n')
                     else:
                         print('Maaf tempat duduk tersebut sudah dipesan!')
                         err = True
-
+                j += 1
+            i += 1
+        if (not err and not selesai and order != ''):
+            print('Maaf tempat duduk tersebut tidak tersedia!')
+            err = True
+            
         # tampilan tempat duduk, i = indeks baris, j = indeks kolom
         if (not err):
             for i in range(0, baris*3+1, 1):
@@ -226,7 +238,7 @@ def main():
                             print('-----', end='┼')
                 print()
             
-        order = str(input('\nPesan tempat duduk: '))
+        order = str(input('\nPesan tempat duduk (pilih nomor kursi yang belum dipesan, bila selesai ketik "end"): '))
         if (order == 'end'):
             daftar_order += order
         print()
