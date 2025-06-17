@@ -13,13 +13,13 @@ import datetime
 # Fungsi baca_data_seats(filename)
 # Fungsi ini membaca data kursi dari file CSV dan mengembalikan informasi terkait bioskop, jumlah tiket, daftar tempat duduk, dan status tempat duduk.
     # Kamus Lokal
-# data : dictionary untuk menyimpan data yang dibaca dari file (dict)
-# filename : nama file CSV yang akan dibaca (str)
-# rows : daftar baris yang dibaca dari file CSV (list of list of str)
-# i : indeks untuk iterasi melalui baris-baris file (int)
-# key : kunci untuk menentukan jenis data yang sedang dibaca (str)
-# kursi_raw : string yang berisi daftar kursi yang dibaca dari file (str)
-# state_raw : string yang berisi status kursi yang dibaca dari file (str)
+    # data : dictionary untuk menyimpan data yang dibaca dari file (dict)
+    # filename : nama file CSV yang akan dibaca (str)
+    # rows : daftar baris yang dibaca dari file CSV (list of list of str)
+    # i : indeks untuk iterasi melalui baris-baris file (int)
+    # key : kunci untuk menentukan jenis data yang sedang dibaca (str)
+    # kursi_raw : string yang berisi daftar kursi yang dibaca dari file (str)
+    # state_raw : string yang berisi status kursi yang dibaca dari file (str)
 def baca_data_seats(filename="seats.csv"):
     """
     Fungsi ini membaca file seats.csv dan mengembalikan data dalam bentuk dictionary.
@@ -79,10 +79,6 @@ def baca_data_seats(filename="seats.csv"):
     # nama_hari_ini : nama hari saat ini (str)
     # tanggal_str : string yang berisi tanggal saat ini dalam format 'Hari, DD-MM-YYYY' (str)
     # waktu_str : string yang berisi waktu saat ini dalam format 'HH:MM' (str)
-    # # rows : jumlah baris pada denah kursi (int)
-    # # cols : jumlah kolom pada denah kursi (int)
-    # # seat_code : kode kursi yang sedang ditampilkan (str)
-    # # i, j : indeks untuk iterasi melalui baris-baris denah kursi (int)
 def main():
     # 1. Baca data dari seats.csv
     data_tiket = baca_data_seats("seats.csv")

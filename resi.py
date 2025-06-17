@@ -58,9 +58,9 @@ def baca_data_seats(filename):
     # Kamus Lokal
     # rows : jumlah baris pada denah kursi (int)
     # cols : jumlah kolom pada denah kursi (int)
+    # row_label : membuat label huruf (A, B, C, dst.) untuk setiap baris kursi bioskop (str)
     # seat_code : kode kursi yang sedang ditampilkan (str)
     # i, j : indeks untuk iterasi melalui baris-baris denah kursi (int)
-    
 def tampilkan_denah_kursi(state_tempat_duduk, daftar_tempat_duduk):
     print("\nDenah Kursi:")
     rows = len(state_tempat_duduk)
