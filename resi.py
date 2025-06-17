@@ -11,15 +11,15 @@ import datetime
 # Fungsi baca_data_seats(filename)
 # Fungsi ini membaca data kursi dari file CSV dan mengembalikan informasi terkait bioskop, jumlah tiket, daftar tempat duduk, dan status tempat duduk.
     # Kamus Lokal
-    # tipe_bioskop : tipe bioskop yang dibaca dari file (str)
-    # jumlah_tiket : jumlah tiket yang dibaca dari file (int)
-    # daftar_tempat_duduk : daftar tempat duduk yang dibaca dari file (list of str)
-    # studio : studio yang dibaca dari file (str)
-    # state_tempat_duduk : status tempat duduk yang dibaca dari file (list of list of str)
-    # i : indeks untuk iterasi melalui baris-baris file (int)
-    # rows : daftar baris yang dibaca dari file CSV (list of list of str)
-    # row : baris yang sedang diproses (list of str)
-    # key : kunci untuk menentukan jenis data yang sedang dibaca (str)
+    # tipe_bioskop : variabel untuk tipe bioskop yang dibaca dari file (str)
+    # jumlah_tiket : variabel untuk jumlah tiket yang dibaca dari file (int)
+    # daftar_tempat_duduk : variabel untuk daftar tempat duduk yang dibaca dari file (list of str)
+    # studio : variabel untuk studio yang dibaca dari file (str)
+    # state_tempat_duduk : variabel untuk status tempat duduk yang dibaca dari file (list of list of str)
+    # i : variabel untuk indeks untuk iterasi melalui baris-baris file (int)
+    # rows : variabel untuk daftar baris yang dibaca dari file CSV (list of list of str)
+    # row : variabel untuk baris yang sedang diproses (list of str)
+    # key : variabel untuk kunci untuk menentukan jenis data yang sedang dibaca (str)
     # x : variabel untuk iterasi dalam daftar tempat duduk (str)
 def baca_data_seats(filename):
     with open(filename, "r", encoding="utf-8") as file:
@@ -56,11 +56,11 @@ def baca_data_seats(filename):
 # Fungsi tampilkan_denah_kursi(state_tempat_duduk, daftar_tempat_duduk)
 # Fungsi ini menampilkan denah kursi bioskop berdasarkan status tempat duduk dan daftar tempat duduk yang sudah dipesan.
     # Kamus Lokal
-    # rows : jumlah baris pada denah kursi (int)
-    # cols : jumlah kolom pada denah kursi (int)
-    # row_label : membuat label huruf (A, B, C, dst.) untuk setiap baris kursi bioskop (str)
-    # seat_code : kode kursi yang sedang ditampilkan (str)
-    # i, j : indeks untuk iterasi melalui baris-baris denah kursi (int)
+    # rows : variabel untuk jumlah baris pada denah kursi (int)
+    # cols : variabel untuk jumlah kolom pada denah kursi (int)
+    # row_label : variabel untuk membuat label huruf (A, B, C, dst.) untuk setiap baris kursi bioskop (str)
+    # seat_code : variabel untuk kode kursi yang sedang ditampilkan (str)
+    # i, j : variabel untuk indeks untuk iterasi melalui baris-baris denah kursi (int)
 def tampilkan_denah_kursi(state_tempat_duduk, daftar_tempat_duduk):
     print("\nDenah Kursi:")
     rows = len(state_tempat_duduk)
@@ -78,20 +78,20 @@ def tampilkan_denah_kursi(state_tempat_duduk, daftar_tempat_duduk):
 
 ## PROGRAM UTAMA ##
     # Kamus Lokal
-    # data : data yang dibaca dari file CSV (list)
-    # tipe_bioskop_raw : tipe bioskop yang dibaca dari data (str)
-    # jumlah_tiket : jumlah tiket yang dibaca dari data (int)
-    # daftar_tempat_duduk : daftar tempat duduk yang dibaca dari data (list of str)
-    # state_tempat_duduk : status tempat duduk yang dibaca dari data (list of list of str)
-    # studio : studio yang dibaca dari data (str)
-    # tipe : tipe bioskop yang ditentukan berdasarkan tipe_bioskop_raw (str)
-    # harga : harga tiket berdasarkan tipe bioskop (int)
-    # nama_film : nama film yang ditentukan berdasarkan data (str)
-    # hari_ini : hari ini dalam format string (str)
-    # promo : jumlah promo yang diberikan berdasarkan hari (int)
-    # total_payment : total pembayaran yang dihitung berdasarkan jumlah tiket, harga, dan promo (int)
-    # metode_tersedia : daftar metode pembayaran yang tersedia (list of str)
-    # metode_pembayaran : metode pembayaran yang dipilih oleh user (str)
+    # data : variabel untuk data yang dibaca dari file CSV (list)
+    # tipe_bioskop_raw : variabel untuk tipe bioskop yang dibaca dari data (str)
+    # jumlah_tiket : variabel untuk jumlah tiket yang dibaca dari data (int)
+    # daftar_tempat_duduk : variabel untuk daftar tempat duduk yang dibaca dari data (list of str)
+    # state_tempat_duduk : variabel untuk status tempat duduk yang dibaca dari data (list of list of str)
+    # studio : variabel untuk studio yang dibaca dari data (str)
+    # tipe : variabel untuk tipe bioskop yang ditentukan berdasarkan tipe_bioskop_raw (str)
+    # harga : variabel untuk harga tiket berdasarkan tipe bioskop (int)
+    # nama_film : variabel untuk nama film yang ditentukan berdasarkan data (str)
+    # hari_ini : variabel untuk hari ini dalam format string (str)
+    # promo : variabel untuk jumlah promo yang diberikan berdasarkan hari (int)
+    # total_payment : variabel untuk total pembayaran yang dihitung berdasarkan jumlah tiket, harga, dan promo (int)
+    # metode_tersedia : variabel untuk daftar metode pembayaran yang tersedia (list of str)
+    # metode_pembayaran : variabel untuk metode pembayaran yang dipilih oleh user (str)
 def main():
     data = baca_data_seats("seats.csv")
     tipe_bioskop_raw = data[0]
@@ -113,11 +113,11 @@ def main():
     # Fungsi child untuk mendapatkan nama film dari file CSV
     # Fungsi ini membaca file CSV dan mengembalikan nama film yang pertama ditemukan.
         # Kamus Lokal
-        # get_nama_film : fungsi untuk mendapatkan nama film dari file CSV (function)
-        # f : file handler untuk membaca file CSV (file object)
-        # reader : objek pembaca CSV untuk membaca baris-baris file (csv.reader)
-        # rows : daftar baris yang dibaca dari file CSV (list of list of str)
-        # film : baris yang sedang diproses untuk mendapatkan nama film (list of str)
+        # get_nama_film : variabel untuk fungsi untuk mendapatkan nama film dari file CSV (function)
+        # f : variabel untuk file handler untuk membaca file CSV (file object)
+        # reader : variabel untuk objek pembaca CSV untuk membaca baris-baris file (csv.reader)
+        # rows : variabel untuk daftar baris yang dibaca dari file CSV (list of list of str)
+        # film : variabel untuk baris yang sedang diproses untuk mendapatkan nama film (list of str)
     def get_nama_film():
         try:
             with open('seats.csv', 'r', encoding='utf-8') as f:
