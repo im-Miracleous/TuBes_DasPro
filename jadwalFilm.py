@@ -143,6 +143,25 @@ def tambah_Film(N):
         writer.writerows(films)
     return films
 
+# Fungsi show_currentFilms(rows)
+# Fungsi ini digunakan untuk menampilkan film yang sedang tayang berdasarkan data yang ada di file 'films.csv'.
+    # Kamus Lokal
+    # header : array untuk menyimpan header dari file CSV (array)
+    # film : array untuk menyimpan data film (array str)
+    # rows : array untuk menyimpan baris-baris dari file CSV (array of arrays)
+    # i : indeks untuk iterasi baris (int)
+def show_currentFilms(rows):
+    """Fungsi ini menerima list 'rows' dari memori dan menampilkannya dengan format yang rapi."""
+    print("---------------------------------------------------------------------------------------------------------------------------")
+    header = rows[1]
+    print(f"{header[0]:5}{header[1]:20}{header[2]:>10}{header[3]:>10}{header[4]:>18}{header[5]:>20}{header[6]:>20}{header[7]:>20}")
+    print("---------------------------------------------------------------------------------------------------------------------------")
+    for i, film in enumerate(rows[2:], start=1):
+        if len(film) == 8:
+            # Menggunakan 'i' untuk penomoran agar selalu urut (1, 2, 3, dst.)
+            print(f"{str(i):5}{film[1]:20}{film[2]:>10}{film[3]:>10}{film[4]:>18}{film[5]:>20}{film[6]:>20}{film[7]:>20}")
+    print("---------------------------------------------------------------------------------------------------------------------------")
+
 # Fungsi hapus_Film(N)
 # Fungsi ini digunakan untuk menghapus film dari jadwal bioskop berdasarkan ID yang dimasukkan oleh user. Ia akan membaca file 'films.csv', menampilkan jadwal film, dan menghapus film yang dipilih. Setelah itu, ia akan memperbarui ID film dan menyimpan kembali ke file 'films.csv'.
     # Kamus Lokal
@@ -168,13 +187,36 @@ def hapus_Film(N):
             rows = list(reader)
             # Cek apakah ada film yg tersimpan (jumlah film > 0)
             if (len(rows) > 2): # disini nilainya 2 (bukan 0), karena baris pertama adalah header dan baris kedua adalah judul kolom
-                # Jika ada, tampilkan jadwal film
-                print("\nJadwal Bioskop:")
-                jadwal_Film()
                 deleted_ids = []
                 
                 # Untuk i = 1 sampai N...
-                for i in range(N):
+                nullcheck = False
+                i = 0
+                while (i < N):
+                    if (i < N) and (nullcheck == False):
+                        # Tampilkan jadwal terkini
+                        print("\nJadwal Bioskop Saat Ini:")
+                        show_currentFilms(rows)
+                    if len(rows) <= 2:
+                        # Hentikan jika sudah tidak ada film yang bisa dihapus
+                        print("Sudah tidak ada film lagi untuk dihapus.")
+                    i += 1
+                
+                # # Untuk i = 1 sampai N...
+                # nullcheck = False
+                # while (nullcheck != True):
+                #     for i in range(0, N, 1):
+                #         # Tampilkan daftar film terkini di setiap awal iterasi
+                #         print("\nDaftar Film Terkini:")
+                #         show_currentFilms(rows)
+                        
+                #         # Hentikan jika sudah tidak ada film yang tersisa
+                #         if len(rows) <= 2:
+                #             print("Tidak ada film yang tersisa untuk dihapus.")
+                #             nullcheck = True
+                
+                # Hentikan jika sudah tidak ada film yang bisa dihapus
+
                     # Input nomor film yang ingin dihapus
                     index = int(input(f"Masukkan nomor film yang ingin dihapus (1-{len(rows)-2}): "))
                     if (index > 0) and (index <= len(rows) - 2):
@@ -188,11 +230,7 @@ def hapus_Film(N):
                 
                 print("Menghapus film...")
                 time.sleep(2)
-                # Tampilkan ID film yang dihapus
-                print("\nID film yang dihapus:")
-                for deleted_id in deleted_ids:
-                    print(f" - {deleted_id}")
-                print("Film berhasil dihapus. Kembali ke menu utama...")
+                print("\nFilm berhasil dihapus. Kembali ke menu utama...")
                 time.sleep(2)
 
                 # Urutkan ulang ID film
