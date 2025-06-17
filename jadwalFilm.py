@@ -44,9 +44,9 @@ def interface():
     # f : objek file untuk membuka file 'films.csv'
     # os : modul untuk memeriksa keberadaan file
     # csv : modul untuk membaca dan menulis file CSV
-    # rows : list untuk menyimpan baris-baris dari file CSV (list of lists)
-    # header : list untuk menyimpan header dari file CSV (list)
-    # film : list untuk menyimpan data film (list)
+    # rows : array untuk menyimpan baris-baris dari file CSV (array of arrays)
+    # header : array untuk menyimpan header dari file CSV (array)
+    # film : array untuk menyimpan data film (array str)
 def jadwal_Film():
     if os.path.exists('films.csv'):
         with open('films.csv', 'r', encoding='utf-8') as f:
@@ -69,26 +69,28 @@ def jadwal_Film():
 # Fungsi ini digunakan untuk menambahkan film baru ke dalam jadwal bioskop, di mana ia akan meminta input dari user untuk data film, menyimpan data tersebut ke dalam matriks, dan menyimpannya ke file 'films.csv'. Jika file 'films.csv' sudah ada, akan membaca jumlah film yang sudah ada untuk menentukan ID film berikutnya.
     # Kamus Lokal
     # N : jumlah film yang akan ditambahkan (int)
-    # films : matriks 2D untuk menyimpan data film (list of lists)
+    # films : matriks 2D untuk menyimpan data film (array of arrays)
     # file_exists : boolean untuk memeriksa apakah file 'films.csv' sudah ada (bool)
-    # existing_rows : list untuk menyimpan baris-baris yang sudah ada dalam file 'films.csv' (list of lists)
+    # existing_rows : array untuk menyimpan baris-baris yang sudah ada dalam file 'films.csv' (array of arrays)
     # next_id : ID film berikutnya yang akan digunakan (int)
     # id_num : ID film yang sedang diinput (int)
     # judul, jam, menit, genre, rating, tipe : variabel untuk menyimpan input dari user (str)
     # baris, kolom : jumlah baris dan kolom untuk tempat duduk berdasarkan tipe bioskop (int)
 def tambah_Film(N):
-    global recent_id
     films = deklarasiMatriks(N, 8)
     # Cek apakah file sudah ada dan baca jumlah film yang sudah ada
     file_exists = os.path.exists('films.csv')
     existing_rows = []
     if file_exists:
+        # Jika file ada, baca isinya
         with open('films.csv', 'r', encoding='utf-8') as f:
             reader = csv.reader(f)
             rows = list(reader)
             # Data film mulai dari baris ke-3 (indeks 2)
             existing_rows = rows[2:]
+    # Jika file tidak ada, inisialisasi existing_rows sebagai list kosong
     next_id = len(existing_rows) + 1
+    
     # Input data film
     print("\nMasukkan data jadwal film:")
     for i in range(N):
@@ -100,6 +102,9 @@ def tambah_Film(N):
         rating = str(input(f"Rating Usia: "))
         tipe = tipe_bioskop()
         studio = int(input(f"Studio: "))
+        
+        # Simpan data film ke dalam matriks
+        # films[i] akan menyimpan data film ke-i
         films[i][0] = id_num
         films[i][1] = judul
         films[i][2] = jam
@@ -109,6 +114,7 @@ def tambah_Film(N):
         films[i][6] = tipe
         films[i][7] = f"Studio {studio}"
         
+        # Tentukan jumlah baris dan kolom berdasarkan tipe bioskop
         if tipe == "Reguler/Deluxe":
             baris = 10
             kolom = 20
@@ -118,6 +124,7 @@ def tambah_Film(N):
         elif (tipe == "Premium Class"):
             baris = 5
             kolom = 6
+        
         # Simpan state tempat duduk
         simpan_state_tempat_duduk(id_num, baris, kolom)
     
@@ -143,54 +150,80 @@ def tambah_Film(N):
     # reader : objek pembaca CSV untuk membaca file 'films.csv'
     # f : objek file untuk membuka file 'films.csv'
     # os : modul untuk memeriksa keberadaan file
-    # deleted_ids : list untuk menyimpan ID film yang dihapus (list)
+    # deleted_ids : array untuk menyimpan ID film yang dihapus (array)
     # index : indeks film yang akan dihapus (int)
-    # rows : list untuk menyimpan baris-baris dari file CSV (list of lists)
-    # lines : list untuk menyimpan baris-baris dari file 'state_tempat_duduk.csv' (list of strings)
-    # new_lines : list untuk menyimpan baris-baris baru setelah penghapusan (list of strings)
+    # rows : array untuk menyimpan baris-baris dari file CSV (array of lists)
+    # lines : array untuk menyimpan baris-baris dari file 'state_tempat_duduk.csv' (array of strings)
+    # new_lines : array untuk menyimpan baris-baris baru setelah penghapusan (array of strings)
     # skip : boolean untuk menentukan apakah harus melewati baris tertentu (bool)
     # skip_count : jumlah baris yang harus dilewati (int)
     # idx : indeks untuk iterasi baris (int)
     # studio_counter : penghitung untuk ID studio yang tersisa (int)
 def hapus_Film(N):
+    # Cek apakah file 'films.csv' ada
     if os.path.exists('films.csv'):
+        # Jika ada, baca isinya
         with open('films.csv', 'r', encoding='utf-8') as f:
             reader = csv.reader(f)
             rows = list(reader)
-            if len(rows) > 2:
+            # Cek apakah ada film yg tersimpan (jumlah film > 0)
+            if (len(rows) > 2): # disini nilainya 2 (bukan 0), karena baris pertama adalah header dan baris kedua adalah judul kolom
+                # Jika ada, tampilkan jadwal film
                 print("\nJadwal Bioskop:")
                 jadwal_Film()
                 deleted_ids = []
+                
+                # Untuk i = 1 sampai N...
                 for i in range(N):
+                    # Input nomor film yang ingin dihapus
                     index = int(input(f"Masukkan nomor film yang ingin dihapus (1-{len(rows)-2}): "))
-                    if 1 <= index <= len(rows) - 2:
+                    if (index > 0) and (index <= len(rows) - 2):
+                        # Simpan ID film yang akan dihapus ke dalam array
                         deleted_id = rows[index + 1][0]
                         deleted_ids.append(deleted_id)
+                        # Hapus baris film yang dipilih
                         del rows[index + 1]
                     else:
                         print("Nomor tidak valid.")
-                # Renumber IDs in films.csv
+                
+                print("Menghapus film...")
+                time.sleep(2)
+                # Tampilkan ID film yang dihapus
+                print("\nID film yang dihapus:")
+                for deleted_id in deleted_ids:
+                    print(f" - {deleted_id}")
+                print("Film berhasil dihapus. Kembali ke menu utama...")
+                time.sleep(2)
+
+                # Urutkan ulang ID film
                 for idx, row in enumerate(rows[2:], start=1):
                     if len(row) == 8:
                         row[0] = str(idx)
+                        
+                # Simpan kembali perubahan ke file 'films.csv'
                 with open('films.csv', 'w', newline='', encoding='utf-8') as f:
                     writer = csv.writer(f)
                     writer.writerows(rows)
-                # Update state_tempat_duduk.csv
+                
+                # Cek apakah file 'state_tempat_duduk.csv' ada
                 if os.path.exists('state_tempat_duduk.csv'):
+                    # Jika ada, baca isinya
                     with open('state_tempat_duduk.csv', 'r', encoding='utf-8') as f:
                         lines = f.readlines()
                     new_lines = []
                     skip = False
                     skip_count = 0
+                    
+                    # Untuk setiap baris...
                     for line in lines:
+                        # Jika baris adalah ID studio yang dihapus, lewati barisnya
                         if skip:
                             skip_count -= 1
                             if skip_count == 0:
                                 skip = False
                             continue
+                        # Jika tidak, salin ke array baru
                         if line.strip() in deleted_ids:
-                            # Determine how many seat rows to skip (count until next digit or EOF)
                             skip = True
                             skip_count = 0
                             idx = lines.index(line) + 1
@@ -199,17 +232,22 @@ def hapus_Film(N):
                                 idx += 1
                             continue
                         new_lines.append(line)
-                    # Renumber remaining studio IDs
+                    
+                    # Urutkan ulang ID studio yang tersisa
                     studio_counter = 1
                     for i, line in enumerate(new_lines):
                         if line.strip().isdigit():
                             new_lines[i] = f'{studio_counter}\n'
                             studio_counter += 1
+                    
+                    # Simpan kembali perubahan ke file 'state_tempat_duduk.csv'
                     with open('state_tempat_duduk.csv', 'w', encoding='utf-8') as f:
                         f.writelines(new_lines)
             else:
+                # Jika tidak ada film yang tersimpan, tampilkan pesan
                 print("Belum ada data film yang tersimpan.")
     else:
+        # Jika file 'films.csv' tidak ada, tampilkan pesan
         print("File films.csv tidak ditemukan.")
 
 # Fungsi harga_tiket(tipe)
